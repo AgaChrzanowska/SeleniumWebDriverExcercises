@@ -65,6 +65,10 @@
     <Compile Include="AccountSummary\AccountSummary.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="OnlineStatements\OnlineStatements.cs" />
+    <Compile Include="PayBills\CommonForPayBills.cs" />
+    <Compile Include="PayBills\PaySavedPayee.cs" />
+    <Compile Include="PayBills\AddNewPayee.cs" />
+    <Compile Include="PayBills\PurchaseForeignCurrency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
