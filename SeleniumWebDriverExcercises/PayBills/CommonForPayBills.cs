@@ -14,7 +14,6 @@ namespace SeleniumWebDriverExcercises.PayBills
         private static IWebDriver _driver = new ChromeDriver();
         private Common _common = new Common(_driver);
         
-
         [TestInitialize]
         public void SetUp()
         {
@@ -29,45 +28,57 @@ namespace SeleniumWebDriverExcercises.PayBills
             IWebElement headerName = _driver.FindElement(By.Id("pay_bills_tab"));
             Assert.AreEqual("Pay Bills", headerName.Text);
         }
+
         [TestMethod]
         public void Check_If_Table_Exist()
         {
             IWebElement table = _driver.FindElement(By.Id("tabs"));
             Assert.IsNotNull(table);
         }
-
-        [TestMethod]
-        public void Get_First_Table_Headers()
+        public IWebElement GetHeaders(int index)
         {
+            _common.MyWait(5, By.CssSelector("#tabs > ul > li"));
+
             IReadOnlyCollection<IWebElement> tableHeaders = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
-            IWebElement header_1= tableHeaders.ElementAt(0);
-            Assert.AreEqual("Pay Saved Payee", header_1.Text);
+            return tableHeaders.ElementAt(index);
         }
 
         [TestMethod]
-        public void Get_Second_Table_Headers()
+        public void Schould_First_Tab_Has_Valid_Name()
         {
-            IReadOnlyCollection<IWebElement> tableHeaders = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
-            IWebElement header_2 = tableHeaders.ElementAt(1);
-            Assert.AreEqual("Add New Payee", header_2.Text);
+            ////IReadOnlyCollection<IWebElement> tableHeaders = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
+            ////IWebElement header1= tableHeaders.ElementAt(0);
+            ////Assert.AreEqual("Pay Saved Payee", header1.Text);
+            // Now faster method:
+
+            IWebElement header1 = GetHeaders(0);
+            Assert.AreEqual("Pay Saved Payee", header1.Text);
+
         }
 
         [TestMethod]
-        public void Get_Third_Table_Headers()
+        public void Schould_Second_Tab_Has_Valid_Name()
         {
-            IReadOnlyCollection<IWebElement> tableHeaders = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
-            IWebElement header_3 = tableHeaders.ElementAt(2);
-            Assert.AreEqual("Purchase Foreign Currency", header_3.Text);
+            IWebElement header2 = GetHeaders(1);
+            Assert.AreEqual("Add New Payee", header2.Text);
         }
+
         [TestMethod]
-        public void Check_Count_Table_Header()
+        public void Schould_Third_Tab_Has_Valid_Name()
+        {
+            IWebElement header3 = GetHeaders(2);
+            Assert.AreEqual("Purchase Foreign Currency", header3.Text);
+        }
+
+        [TestMethod]
+        public void Check_Count_Tab_Header()
         {
             IReadOnlyCollection<IWebElement> tableHeader = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
             Assert.AreEqual(3, tableHeader.Count);
         }
 
         [TestMethod]
-        public void Check_Table_Header_Names()
+        public void Check_Tab_Header_Names()
         {
             IReadOnlyCollection<IWebElement> tableHeader = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
             Assert.AreEqual("Pay Saved Payee", tableHeader.ElementAt(0).Text);

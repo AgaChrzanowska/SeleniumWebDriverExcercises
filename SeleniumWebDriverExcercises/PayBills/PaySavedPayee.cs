@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 
 namespace SeleniumWebDriverExcercises.PayBills
 {
@@ -13,18 +15,15 @@ namespace SeleniumWebDriverExcercises.PayBills
         private static IWebDriver _driver = new ChromeDriver();
         private Common _common = new Common(_driver);
 
-        //private CommonForPayBills _commonForPayBills; 
-
         [TestInitialize]
         public void SetUp()
         {
             _common.Login();
-            //_commonForPayBills = new CommonForPayBills();
             IWebElement btnPayBills = _driver.FindElement(By.Id("pay_bills_tab"));
             btnPayBills.Click();
             IReadOnlyCollection<IWebElement> tableHeaders = _driver.FindElements(By.CssSelector("#tabs > ul > li"));
-            IWebElement header_1 = tableHeaders.ElementAt(0);
-            header_1.Click();
+            IWebElement header1 = tableHeaders.ElementAt(0);
+            header1.Click();
         }
 
         [TestMethod]
@@ -54,6 +53,14 @@ namespace SeleniumWebDriverExcercises.PayBills
             IReadOnlyCollection<IWebElement> tableRows = _driver.FindElements(By.ClassName("control-label"));
             Assert.AreEqual("Account", tableRows.ElementAt(1).Text);
         }
+
+        [TestMethod]
+        public void Get_Payee_List()
+        {
+           IReadOnlyCollection<IWebElement> payeeList = _driver.FindElement(By.Id("sp_payee")).FindElements(By.TagName("option"));
+           Assert.AreEqual(4, payeeList.Count());
+        }
+
 
         [TestCleanup]
         public void Finish()
